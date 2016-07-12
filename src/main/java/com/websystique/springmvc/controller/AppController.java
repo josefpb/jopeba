@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
@@ -59,6 +61,14 @@ public class AppController {
 
     @Autowired
     AuthenticationTrustResolver authenticationTrustResolver;
+
+    @Autowired
+    FileValidator fileValidator;
+
+    @InitBinder("fileBucket")
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(fileValidator);
+    }
 
     /**
      * This method will list all existing users.
